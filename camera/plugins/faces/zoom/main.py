@@ -11,10 +11,10 @@ class Plugin:
         pass
 
     def load(self):
-        webcam.addNewFrameCallback("facezoom", self.__newFrame, 0)
+        webcam.addNewFrameCallback("faces-zoom", self.__newFrame, 0)
 
     def unload(self):
-        webcam.removeNewFrameCallback("facezoom")
+        webcam.removeNewFrameCallback("faces-zoom")
 
     def __newFrame(self, frame):
         faces = detector.detectFaces(frame)

@@ -9,10 +9,10 @@ class Plugin:
         pass
 
     def load(self):
-        webcam.addNewFrameCallback("faceover", self.__newFrame, 0)
+        webcam.addNewFrameCallback("faces-cover", self.__newFrame, 0)
 
     def unload(self):
-        webcam.removeNewFrameCallback("faceover")
+        webcam.removeNewFrameCallback("faces-cover")
 
     def __newFrame(self, frame):
         faces = detector.detectFaces(frame)

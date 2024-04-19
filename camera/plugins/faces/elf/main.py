@@ -12,10 +12,10 @@ class Plugin:
         pass
 
     def load(self):
-        webcam.addNewFrameCallback("elfface", self.__newFrame, 0)
+        webcam.addNewFrameCallback("faces-elf", self.__newFrame, 0)
 
     def unload(self):
-        webcam.removeNewFrameCallback("elfface")
+        webcam.removeNewFrameCallback("faces-elf")
 
     def __newFrame(self, frame):
         faces = detector.detectFaces(frame)
