@@ -10,11 +10,12 @@ PLUGIN_DIRECTORY = "camera\\plugins"
 class PluginController:
     def __init__(self):
         self.plugins = {}
+        self.groups = {}
         self.__active = {}
         self.__loadPluginCallbacks = {}
         self.__unloadPluginCallbacks = {}
 
-        self.__register()
+        self.__register(PLUGIN_DIRECTORY)
 
     def isActive(self, name):
         return name in self.__active
@@ -62,20 +63,35 @@ class PluginController:
     def removeUnloadCallback(self, name):
         del self.__unloadPluginCallbacks[name]
 
-    def __register(self):
-        for pluginFolder in listdir(PLUGIN_DIRECTORY):
-            pluginPath = path.join(PLUGIN_DIRECTORY, pluginFolder)
+    def __register(self, directory, group="none"):
+        for folder in listdir(directory):
+            folderPath = path.join(PLUGIN_DIRECTORY, folder)
 
-            if not path.isdir(pluginPath):
+            if not path.isdir(folderPath):
+                continue
+            
+            infoPath = path.join(folderPath, "info.json")
+            
+            if not path.isdir(infoPath):
                 continue
 
-            infoFilePath = path.join(pluginPath, "info.json")
-            mainFilePath = path.join(pluginPath, "main.py")
-
-            with open(infoFilePath, "r") as infoFile:
-                pluginInfo = load(infoFile)
-                pluginInfo["main"] = mainFilePath
-                self.plugins[pluginInfo["name"]] = pluginInfo
+            with open(infoPath, "r") as file:
+                info = load(file)
+                
+                if info["type"] == "group":
+                    self.__registerGroup(info)
+                    self.__register(folderPath, info["name"])
+                else:
+                    self.__registerPlugin(info, folderPath, group)
+            
+    def __registerGroup(self, info):
+        self.groups[info["name"]] = []
+                
+    def __registerPlugin(self, info, directory, group):
+        info["main"] = path.join(directory, "main.py")
+            
+        self.plugins[info["name"]] = info
+        self.groups[group].append(info["name"])
 
 
 modules[__name__] = PluginController()
