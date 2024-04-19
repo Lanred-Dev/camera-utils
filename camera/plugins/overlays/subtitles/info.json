@@ -1,6 +1,6 @@
 {
-    "name": "Subtitles",
-    "description": "Adds live subtitles to your webcam video.",
-    "version": 0.1,
-    "group": "overlays"
+  "type": "plugin",
+  "version": 0.1,
+  "name": "Subtitles",
+  "description": "Adds live subtitles to your webcam video."
 }

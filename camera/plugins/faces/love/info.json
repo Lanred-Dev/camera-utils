@@ -1,6 +1,6 @@
 {
-    "name": "Love",
-    "description": "Applys a love face filter.",
-    "version": 0.1,
-    "group": "overlays"
+  "type": "plugin",
+  "version": 0.1,
+  "name": "Love",
+  "description": "Applys a love face filter."
 }

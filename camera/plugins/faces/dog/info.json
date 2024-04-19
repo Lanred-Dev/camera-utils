@@ -1,6 +1,6 @@
 {
-    "name": "Dog face",
-    "description": "Applys a dog face filter.",
-    "version": 0.1,
-    "group": "overlays"
+  "type": "plugin",
+  "version": 0.1,
+  "name": "Dog face",
+  "description": "Applys a dog face filter."
 }

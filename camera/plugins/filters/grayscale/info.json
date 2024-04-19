@@ -1,6 +1,6 @@
 {
-    "name": "Grayscale",
-    "description": "Converts webcam feed to grayscale.",
-    "version": 0.1,
-    "group": "effects"
+  "type": "plugin",
+  "version": 0.1,
+  "name": "Grayscale",
+  "description": "Converts webcam feed to grayscale."
 }

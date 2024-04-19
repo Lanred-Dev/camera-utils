@@ -1,6 +1,6 @@
 {
-    "name": "Goblin",
-    "description": "Applys a goblin face filter.",
-    "version": 0.1,
-    "group": "overlays"
+  "type": "plugin",
+  "version": 0.1,
+  "name": "Goblin",
+  "description": "Applys a goblin face filter."
 }

@@ -1,13 +1,13 @@
 {
-    "type": "group",
-    "version": 0.1,
-    "name": "Camera Shake",
-    "description": "Applys a artificial camera shake.",
-    "params": [
-        {
-            "name": "Intensity",
-            "type": "numberRange",
-            "value": [1, 50, 10]
-        }
-    ]
+  "type": "plugin",
+  "version": 0.1,
+  "name": "Camera Shake",
+  "description": "Applys a artificial camera shake.",
+  "params": [
+    {
+      "name": "Intensity",
+      "type": "numberRange",
+      "value": [1, 50, 10]
+    }
+  ]
 }

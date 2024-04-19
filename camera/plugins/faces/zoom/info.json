@@ -1,6 +1,6 @@
 {
-    "name": "Face zoom",
-    "description": "Zoom in on your face.",
-    "version": 0.1,
-    "group": "effects"
+  "type": "plugin",
+  "version": 0.1,
+  "name": "Face zoom",
+  "description": "Zoom in on your face."
 }
