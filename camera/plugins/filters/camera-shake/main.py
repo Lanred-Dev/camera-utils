@@ -11,10 +11,10 @@ class Plugin:
         pass
 
     def load(self):
-        webcam.addNewFrameCallback("shake1", self.__newFrame, 2)
+        webcam.addNewFrameCallback("camera-shake", self.__newFrame, 2)
 
     def unload(self):
-        webcam.removeNewFrameCallback("shake1")
+        webcam.removeNewFrameCallback("camera-shake")
 
     def __newFrame(self, frame):
         rows, cols, _ = frame.shape
