@@ -20,6 +20,11 @@ class Webcam:
         self.active = False
         self.__captureThread = None
         self.__newFrameCallbacks = {}
+        
+        self.FILTER_PRIORITY = 3
+        self.FACE_PRIORITY = 1
+        self.SCREEN_PRIORITY = 4
+        self.OVERLAY_PRIORITY = 2
 
     def __del__(self):
         self.capture.release()

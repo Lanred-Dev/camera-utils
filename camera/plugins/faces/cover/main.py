@@ -9,7 +9,7 @@ class Plugin:
         pass
 
     def load(self):
-        webcam.addNewFrameCallback("faces-cover", self.__newFrame, 0)
+        webcam.addNewFrameCallback("faces-cover", self.__newFrame, webcam.FACE_PRIORITY)
 
     def unload(self):
         webcam.removeNewFrameCallback("faces-cover")

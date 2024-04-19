@@ -9,7 +9,7 @@ class Plugin:
         self.__firstFrame = None
 
     def load(self):
-        webcam.addNewFrameCallback("brb", self.__newFrame, 100)
+        webcam.addNewFrameCallback("brb", self.__newFrame, webcam.SCREEN_PRIORITY)
 
     def unload(self):
         webcam.removeNewFrameCallback("brb")

@@ -10,7 +10,7 @@ class Plugin:
         pass
 
     def load(self):
-        webcam.addNewFrameCallback("grayscale", self.__newFrame, 4)
+        webcam.addNewFrameCallback("grayscale", self.__newFrame, webcam.FILTER_PRIORITY)
 
     def unload(self):
         webcam.removeNewFrameCallback("grayscale")

@@ -29,7 +29,7 @@ class Plugin:
         self.__portAudio = PyAudio()
         self.__audioStream = self.__portAudio.open(format=paInt16, channels=1, rate=16000, input=True, frames_per_buffer=8192)
 
-        webcam.addNewFrameCallback("subtitles", self.__newFrame, 1)
+        webcam.addNewFrameCallback("subtitles", self.__newFrame, webcam.OVERLAY_PRIORITY)
 
         self.__startSpeechRecognizer()
 

@@ -11,7 +11,7 @@ class Plugin:
         pass
 
     def load(self):
-        webcam.addNewFrameCallback("faces-zoom", self.__newFrame, 0)
+        webcam.addNewFrameCallback("faces-zoom", self.__newFrame, webcam.FACE_PRIORITY)
 
     def unload(self):
         webcam.removeNewFrameCallback("faces-zoom")

@@ -11,7 +11,7 @@ class Plugin:
         pass
 
     def load(self):
-        webcam.addNewFrameCallback("camera-shake", self.__newFrame, 2)
+        webcam.addNewFrameCallback("camera-shake", self.__newFrame, webcam.FILTER_PRIORITY)
 
     def unload(self):
         webcam.removeNewFrameCallback("camera-shake")
