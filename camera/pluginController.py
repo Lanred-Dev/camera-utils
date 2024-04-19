@@ -65,31 +65,31 @@ class PluginController:
 
     def __register(self, directory, group="none"):
         for folder in listdir(directory):
-            folderPath = path.join(PLUGIN_DIRECTORY, folder)
+            folderPath = path.join(directory, folder)
 
             if not path.isdir(folderPath):
                 continue
-            
+
             infoPath = path.join(folderPath, "info.json")
-            
+
             if not path.isdir(infoPath):
                 continue
 
             with open(infoPath, "r") as file:
                 info = load(file)
-                
+
                 if info["type"] == "group":
                     self.__registerGroup(info)
                     self.__register(folderPath, info["name"])
-                else:
+                elif info["type"] == "plugin":
                     self.__registerPlugin(info, folderPath, group)
-            
+
     def __registerGroup(self, info):
         self.groups[info["name"]] = []
-                
+
     def __registerPlugin(self, info, directory, group):
         info["main"] = path.join(directory, "main.py")
-            
+
         self.plugins[info["name"]] = info
         self.groups[group].append(info["name"])
 
