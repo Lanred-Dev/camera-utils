@@ -5,7 +5,6 @@ from copy import copy
 from cv2 import (
     VideoCapture,
     destroyAllWindows,
-    flip,
     CAP_PROP_FRAME_WIDTH,
     CAP_PROP_FRAME_HEIGHT,
 )
