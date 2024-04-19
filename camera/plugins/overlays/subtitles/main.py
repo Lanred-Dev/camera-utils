@@ -1,119 +1,55 @@
 from time import sleep, ctime
 from textwrap import wrap
-from threading import Thread
 
-from cv2 import putText, getTextSize, FONT_HERSHEY_SIMPLEX, LINE_AA
-from speech_recognition import Recognizer, Microphone, UnknownValueError, RequestError
+from cv2 import getTextSize, FONT_HERSHEY_SIMPLEX
+from vosk import KaldiRecognizer, Model
+from pyaudio import PyAudio, paInt16
+from json import loads
 
 import camera.webcam as webcam
-
-recognizer = Recognizer()
-recognizer.pause_threshold = 0.05
-recognizer.non_speaking_duration = 0.03
-microphone = Microphone()
-
-microphoneInputs = []
-microphoneInput = ""
-listeningForMicrophoneInput = False
-
-with microphone as source:
-    recognizer.adjust_for_ambient_noise(source)
-
-
-def updateMicrophoneInput():
-    global microphoneInputs
-    global microphoneInput
-
-    microphoneInput = ""
-
-    sortedMicrophoneInputs = sorted(microphoneInputs, key=lambda x: x["time"])
-
-    for inputData in sortedMicrophoneInputs:
-        microphoneInput += inputData["text"]
-
-
-def listenForInput():
-    global listeningForMicrophoneInput
-    global microphoneInputs
-    global microphoneInput
-
-    if listeningForMicrophoneInput:
-        return
-
-    listeningForMicrophoneInput = True
-    input = ""
-
-    with microphone as source:
-        audioData = recognizer.listen(source)
-
-    try:
-        input = recognizer.recognize_wit(
-            audioData, key="5LTIXOXREJLD2NOQE66AR32X2HZSFBDM"
-        )
-    except UnknownValueError as error:
-        input = ""
-    except RequestError as error:
-        input = ""
-
-    if len(input) > 0:
-        currentTime = ctime()
-        microphoneInputs.append({"time": currentTime, "text": input})
-
-        updateMicrophoneInput()
-
-        listeningForMicrophoneInput = False
-
-        sleep(0.2 * len(input))
-
-        for inputData in microphoneInputs:
-            if inputData["time"] != currentTime:
-                continue
-
-            microphoneInputs.remove(inputData)
-            break
-
-        updateMicrophoneInput()
-    else:
-        listeningForMicrophoneInput = False
-
-
-def addTextToFrame(frame, text, position):
-    return putText(
-        frame,
-        text,
-        position,
-        FONT_HERSHEY_SIMPLEX,
-        0.8,
-        (0, 0, 155),
-        2,
-    )
+import camera.utils.addTextToFrame as addTextToFrame
 
 
 class Plugin:
     def __init__(self):
         self.__active = False
+        self.__text = None
+        self.__recognizedTexts = []
+        self.__recognizerModel = None
+        self.__recognizer = None
+        self.__portAudio = None
+        self.__audioStream = None
 
     def load(self):
         self.__active = True
+        
+        self.__recognizerModel = Model(lang="en-us")
+        self.__recognizer = KaldiRecognizer(self.__recognizerModel, 16000)
+
+        self.__portAudio = PyAudio()
+        self.__audioStream = self.__portAudio.open(format=paInt16, channels=1, rate=16000, input=True, frames_per_buffer=8192)
 
         webcam.addNewFrameCallback("subtitles", self.__newFrame, 1)
 
-        while self.__active:
-            Thread(target=listenForInput).start()
+        self.__startSpeechRecognizer()
 
     def unload(self):
         self.__active = False
 
-        webcam.removeNewFrameCallback("subtitles")
+        self.__audioStream.stop_stream()
+        self.__audioStream.close()
+        self.__portAudio.terminate()
+
+        webcam.removeNewFrameCallback("subtitles")        
 
     def __newFrame(self, frame):
-        if len(microphoneInput) == 0:
+        if len(self.__text) == 0:
             return frame
 
         (_textWidth, textHeight), _baseline = getTextSize(
-            microphoneInput, FONT_HERSHEY_SIMPLEX, 0.8, 2
+            self.__text, FONT_HERSHEY_SIMPLEX, 0.8, 2
         )
-        wrappedText = wrap(microphoneInput, width=45)
+        wrappedText = wrap(self.__text, width=45)
         totalTextHeight = textHeight * len(wrappedText)
         startYPosition = (frame.shape[0] - 15) - totalTextHeight
         currentYPosition = startYPosition
@@ -132,3 +68,34 @@ class Plugin:
             currentYPosition += textHeight + 2
 
         return frame
+    
+    def __startSpeechRecognizer(self):
+        while self.__active:
+            data = self.__audioStream.read(4096)
+            
+            if self.__recognizer.AcceptWaveform(data):
+                result = loads(self.__recognizer.Result())
+                
+                for word, index in result["text"].split(" "):
+                    self.__newWord(word, index)
+                    
+                self.__formatRecognizedText()
+                
+    def __newWord(self, word, index):
+        time = ctime()
+        self.__recognizedTexts.append({ "text": word, "time": time, "id": index })
+        
+        sleep(0.3)
+        
+        for data in self.__recognizedTexts:
+            if data["time"] != time and data["id"] != index:
+                continue
+
+            self.__recognizedTexts.remove(data)
+            break
+                
+    def __formatRecognizedText(self):
+        sortedTexts = sorted(self.__recognizedTexts, key=lambda x: x["time"])
+
+        for data in sortedTexts:
+            self.__text += data["text"]
