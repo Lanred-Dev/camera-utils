@@ -63,17 +63,17 @@ class PluginController:
     def removeUnloadCallback(self, name):
         del self.__unloadPluginCallbacks[name]
 
-    def __register(self, directory, group="none"):
+    def __register(self, directory, group=None):
         for folder in listdir(directory):
+            if group and folder == "info.json":
+                continue
+
             folderPath = path.join(directory, folder)
 
             if not path.isdir(folderPath):
                 continue
 
             infoPath = path.join(folderPath, "info.json")
-
-            if not path.isdir(infoPath):
-                continue
 
             with open(infoPath, "r") as file:
                 info = load(file)
