@@ -5,6 +5,7 @@ from copy import copy
 from cv2 import (
     VideoCapture,
     destroyAllWindows,
+    imshow,
     CAP_PROP_FRAME_WIDTH,
     CAP_PROP_FRAME_HEIGHT,
 )
@@ -16,11 +17,12 @@ class Webcam:
         self.camera = None
         self.capture = None
         self.frame = None
-        self.finalFrame = None
         self.active = False
+        self.showPreview = False
+        self.__finalFrame = None
         self.__captureThread = None
         self.__newFrameCallbacks = {}
-        
+
         self.FILTER_PRIORITY = 3
         self.FACE_PRIORITY = 1
         self.SCREEN_PRIORITY = 4
@@ -77,7 +79,10 @@ class Webcam:
         while self.active:
             self.__read()
 
-            self.camera.send(self.finalFrame)
+            if self.showPreview:
+                imshow("Preview", self.__finalFrame)
+
+            self.camera.send(self.__finalFrame)
             self.camera.sleep_until_next_frame()
 
     def __read(self):
@@ -87,12 +92,12 @@ class Webcam:
             return
 
         self.frame = frame
-        self.finalFrame = frame
+        self.__finalFrame = frame
 
         for callback in sorted(
             copy(self.__newFrameCallbacks).values(), key=lambda x: x[0]
         ):
-            self.finalFrame = callback[1](self.finalFrame)
+            self.__finalFrame = callback[1](self.__finalFrame)
 
 
 modules[__name__] = Webcam()
