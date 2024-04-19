@@ -1,0 +1,6 @@
+{
+  "type": "plugin",
+  "version": 0.1,
+  "name": "Face Zoom",
+  "description": "Zooms in on your face."
+}
