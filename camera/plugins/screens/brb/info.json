@@ -1,0 +1,6 @@
+{
+    "name": "BRB",
+    "description": "Take a screenshot and show a BRB text.",
+    "version": 0.1,
+    "group": "screen"
+}

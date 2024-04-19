@@ -1,0 +1,26 @@
+from cv2 import warpAffine
+from numpy import random, float32
+
+import camera.webcam as webcam
+
+SHAKE_INTENSITY = 2
+
+
+class Plugin:
+    def __init__(self):
+        pass
+
+    def load(self):
+        webcam.addNewFrameCallback("shake1", self.__newFrame, 2)
+
+    def unload(self):
+        webcam.removeNewFrameCallback("shake1")
+
+    def __newFrame(self, frame):
+        rows, cols, _ = frame.shape
+
+        dx = random.randint(-SHAKE_INTENSITY, SHAKE_INTENSITY)
+        dy = random.randint(-SHAKE_INTENSITY, SHAKE_INTENSITY)
+        M = float32([[1, 0, dx], [0, 1, dy]])
+
+        return warpAffine(frame, M, (cols, rows))
