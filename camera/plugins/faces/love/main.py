@@ -4,7 +4,7 @@ import camera.webcam as webcam
 import camera.detector as detector
 import camera.overlay as overlay
 
-baseOverlay = imread("camera\\plugins\\love\\overlay.png", -1)
+baseOverlay = imread("camera\\plugins\\faces\\love\\overlay.png", -1)
 
 
 class Plugin:
