@@ -1,0 +1,6 @@
+{
+    "type": "plugin",
+    "version": 0.1,
+    "name": "Ginger face",
+    "description": "Applys a ginger face filter."
+}

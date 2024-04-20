@@ -6,6 +6,7 @@ from cv2 import (
     VideoCapture,
     destroyAllWindows,
     imshow,
+    waitKey,
     CAP_PROP_FRAME_WIDTH,
     CAP_PROP_FRAME_HEIGHT,
 )
@@ -28,7 +29,7 @@ class Webcam:
         self.SCREEN_PRIORITY = 4
         self.OVERLAY_PRIORITY = 2
 
-    def __del__(self):
+    def stop(self):
         self.capture.release()
         self.stopCapture()
         destroyAllWindows()
@@ -81,6 +82,7 @@ class Webcam:
 
             if self.showPreview:
                 imshow("Preview", self.__finalFrame)
+                waitKey(1)
 
             self.camera.send(self.__finalFrame)
             self.camera.sleep_until_next_frame()

@@ -13,7 +13,7 @@ import camera.utils.addTextToFrame as addTextToFrame
 class Plugin:
     def __init__(self):
         self.__active = False
-        self.__text = None
+        self.__text = ""
         self.__recognizedTexts = []
         self.__recognizerModel = None
         self.__recognizer = None
@@ -22,14 +22,18 @@ class Plugin:
 
     def load(self):
         self.__active = True
-        
+
         self.__recognizerModel = Model(lang="en-us")
         self.__recognizer = KaldiRecognizer(self.__recognizerModel, 16000)
 
         self.__portAudio = PyAudio()
-        self.__audioStream = self.__portAudio.open(format=paInt16, channels=1, rate=16000, input=True, frames_per_buffer=8192)
+        self.__audioStream = self.__portAudio.open(
+            format=paInt16, channels=1, rate=16000, input=True, frames_per_buffer=8192
+        )
 
-        webcam.addNewFrameCallback("subtitles", self.__newFrame, webcam.OVERLAY_PRIORITY)
+        webcam.addNewFrameCallback(
+            "subtitles", self.__newFrame, webcam.OVERLAY_PRIORITY
+        )
 
         self.__startSpeechRecognizer()
 
@@ -40,7 +44,7 @@ class Plugin:
         self.__audioStream.close()
         self.__portAudio.terminate()
 
-        webcam.removeNewFrameCallback("subtitles")        
+        webcam.removeNewFrameCallback("subtitles")
 
     def __newFrame(self, frame):
         if len(self.__text) == 0:
@@ -68,32 +72,32 @@ class Plugin:
             currentYPosition += textHeight + 2
 
         return frame
-    
+
     def __startSpeechRecognizer(self):
         while self.__active:
             data = self.__audioStream.read(4096)
-            
+
             if self.__recognizer.AcceptWaveform(data):
                 result = loads(self.__recognizer.Result())
-                
-                for word, index in result["text"].split(" "):
+
+                for word, index in enumerate(result["text"].split(" ")):
                     self.__newWord(word, index)
-                    
+
                 self.__formatRecognizedText()
-                
+
     def __newWord(self, word, index):
         time = ctime()
-        self.__recognizedTexts.append({ "text": word, "time": time, "id": index })
-        
+        self.__recognizedTexts.append({"text": word, "time": time, "id": index})
+
         sleep(0.3)
-        
+
         for data in self.__recognizedTexts:
             if data["time"] != time and data["id"] != index:
                 continue
 
             self.__recognizedTexts.remove(data)
             break
-                
+
     def __formatRecognizedText(self):
         sortedTexts = sorted(self.__recognizedTexts, key=lambda x: x["time"])
 

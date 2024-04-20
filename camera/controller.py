@@ -7,9 +7,9 @@ class Controller:
     def __init__(self):
         self.active = False
 
-    def __del__(self):
+    def stop(self):
         global webcam
-        del webcam
+        webcam.stop()
 
     def start(self):
         capturingWebcam = webcam.captureWebcam()
