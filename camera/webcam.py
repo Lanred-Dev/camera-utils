@@ -69,7 +69,7 @@ class Webcam:
         width = int(self.capture.get(CAP_PROP_FRAME_WIDTH))
         height = int(self.capture.get(CAP_PROP_FRAME_HEIGHT))
 
-        self.camera = Camera(width, height, fps, fmt=PixelFormat.RGB, backend="obs")
+        self.camera = Camera(width, height, fps, fmt=PixelFormat.BGR, backend="obs")
 
     def __deleteCamera(self):
         if self.camera:
