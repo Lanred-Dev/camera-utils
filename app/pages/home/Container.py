@@ -3,7 +3,6 @@ from sys import modules
 from PySide6.QtWidgets import QFrame, QHBoxLayout
 
 import app.pages.home.plugins.Container as PluginContainer
-import app.pages.home.Preview as PreviewContainer
 
 
 class Container(QFrame):
@@ -16,12 +15,8 @@ class Container(QFrame):
         layout = QHBoxLayout(self)
         self.setLayout(layout)
 
-        self.previewContainer = PreviewContainer(self)
-        self.previewContainer.setGeometry(0, 0, 300, self.height())
-        layout.addWidget(self.previewContainer)
-
         self.pluginContainer = PluginContainer(self)
-        self.pluginContainer.setGeometry(0, 0, 300, self.height())
+        self.pluginContainer.setGeometry(0, 0, 500, self.height())
         layout.addWidget(self.pluginContainer)
 
 

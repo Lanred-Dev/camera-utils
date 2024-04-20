@@ -2,9 +2,7 @@ from sys import modules, argv, exit
 
 from PySide6.QtWidgets import QApplication
 
-import camera.controller as camera
-
-import app.window as window
+import app.Window as Window
 
 
 class App:
@@ -12,7 +10,7 @@ class App:
         self.app = QApplication(argv)
         # self.app.aboutToQuit.connect(self.__close)
 
-        self.window = window()
+        self.window = Window()
         self.window.show()
 
         self.app.exec()

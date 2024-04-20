@@ -9,9 +9,9 @@ class Window(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("Camera stuff")
-        self.setFixedSize(600, 550)
-        self.setStyleSheet("QMainWindow { background-color: #000000; }")
+        self.setWindowTitle("Camera utils")
+        self.setFixedSize(525, 500)
+        self.setStyleSheet("QMainWindow { background-color: #050505; }")
 
         self.setCentralWidget(HomeContainer())
 

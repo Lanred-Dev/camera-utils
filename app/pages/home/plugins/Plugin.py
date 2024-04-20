@@ -5,14 +5,16 @@ from PySide6.QtWidgets import QFrame, QVBoxLayout, QLabel, QPushButton
 import camera.pluginController as pluginController
 
 
-class PluginContainer(QFrame):
+class Plugin(QFrame):
     def __init__(self, plugin):
         super().__init__()
 
         self.name = plugin["name"]
         self.active = pluginController.isActive(self.name)
 
-        self.setStyleSheet("background-color: lightgray; border-radius: 10px;")
+        self.setStyleSheet(
+            "background-color: #101112; border-radius: 10px; color: #ffffff; padding: 5px;"
+        )
 
         layout = QVBoxLayout(self)
         self.setLayout(layout)
@@ -36,4 +38,4 @@ class PluginContainer(QFrame):
             pluginController.load(self.name)
 
 
-modules[__name__] = PluginContainer
+modules[__name__] = Plugin
