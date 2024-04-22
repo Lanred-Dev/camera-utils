@@ -1,31 +1,33 @@
 from sys import modules
 
-from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QSpacerItem, QSizePolicy
+from PySide6.QtWidgets import QFrame, QHBoxLayout, QSpacerItem, QSizePolicy
 
 import camera.webcam as webcam
+import app.components.Label as Label
 import app.components.Switch as Switch
 
 
 class PreviewToggle(QFrame):
     def __init__(self, parent=None):
         super().__init__(parent)
+        
+        self.layout = QHBoxLayout(self)
+            
+        self.layout.setContentsMargins(0, 0, 0, 0)
+        self.layout.setSpacing(3)
+        self.setLayout(self.layout)
 
-        layout = QHBoxLayout()
-        layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(0)
-        self.setLayout(layout)
+        label = Label("Show preview")
+        label.setStyleSheet("font-size: 15px; font-weight: bold; color: #ffffff;")
+        self.layout.addWidget(label)
 
-        label = QLabel("Show preview", self)
-        label.setStyleSheet("font-size: 15px; font-weight: bold;")
-        layout.addWidget(label)
+        spacer = QSpacerItem(0, 0, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.layout.addItem(spacer)
 
-        spacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-        layout.addItem(spacer)
-
-        switch = Switch(self)
+        switch = Switch()
         switch.on(self.__on)
         switch.off(self.__off)
-        layout.addWidget(switch)
+        self.layout.addWidget(switch)
 
     def __on(self):
         webcam.showPreview = True
