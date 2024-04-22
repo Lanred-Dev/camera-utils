@@ -18,7 +18,7 @@ class Plugin(Container):
         self.layout.addWidget(nameLabel)
 
         descriptionLabel = Label(plugin["description"])
-        descriptionLabel.setStyleSheet(descriptionLabel.styleSheet() + "font-size: 14px; color: #C7C7C7;")
+        descriptionLabel.setStyleSheet(descriptionLabel.styleSheet() + "font-size: 14px; color: #C7C7C7; margin-bottom: 20px;")
         self.layout.addWidget(descriptionLabel)
 
         activateButton = Button("Deactivate" if self.active else "Activate")
