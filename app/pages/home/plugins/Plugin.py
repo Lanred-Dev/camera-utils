@@ -1,35 +1,31 @@
 from sys import modules
 
-from PySide6.QtWidgets import QFrame, QVBoxLayout, QLabel, QPushButton
+from PySide6.QtWidgets import QLabel, QPushButton
 
 import camera.pluginController as pluginController
+import app.components.Container as Container
 
 
-class Plugin(QFrame):
+class Plugin(Container):
     def __init__(self, plugin):
         super().__init__()
 
         self.name = plugin["name"]
         self.active = pluginController.isActive(self.name)
-
-        self.setStyleSheet(
-            "background-color: #101112; border-radius: 10px; color: #ffffff; padding: 5px;"
+        
+        nameLabel = QLabel(self.name + " [" + ("active" if self.active else "inactive") + "]")
+        nameLabel.setStyleSheet(
+            "font-size: 20px; color: #ffffff; font-weight: bold; margin: 0px;"
         )
-
-        layout = QVBoxLayout(self)
-        self.setLayout(layout)
-
-        nameLabel = QLabel(
-            self.name + " [" + ("active" if self.active else "inactive") + "]"
-        )
-        layout.addWidget(nameLabel)
+        self.layout.addWidget(nameLabel)
 
         descriptionLabel = QLabel(plugin["description"])
-        layout.addWidget(descriptionLabel)
+        descriptionLabel.setStyleSheet("font-size: 14px; color: #C7C7C7; font-weight: bold; margin: 0px;")
+        self.layout.addWidget(descriptionLabel)
 
         activateButton = QPushButton("Deactivate" if self.active else "Activate")
         activateButton.clicked.connect(self.__clicked)
-        layout.addWidget(activateButton)
+        self.layout.addWidget(activateButton)
 
     def __clicked(self):
         if pluginController.isActive(self.name):
