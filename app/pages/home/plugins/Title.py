@@ -3,6 +3,7 @@ from sys import modules
 from PySide6.QtWidgets import QFrame, QLabel, QVBoxLayout
 
 import camera.pluginController as pluginController
+import app.components.Label as Label
 
 
 class Title(QFrame):
@@ -14,17 +15,17 @@ class Title(QFrame):
         layout = QVBoxLayout(self)
         self.setLayout(layout)
 
-        nameLabel = QLabel(group)
+        nameLabel = Label(group)
         nameLabel.setStyleSheet(
-            "font-size: 25px; color: #ffffff; font-weight: bold; margin: 0px;"
+            nameLabel.styleSheet() + "font-size: 25px; color: #ffffff; font-weight: bold;"
         )
         layout.addWidget(nameLabel)
 
-        pluginCountLabel = QLabel(
+        pluginCountLabel = Label(
             str(len(pluginController.groups[group])) + " plugins in this group"
         )
         pluginCountLabel.setStyleSheet(
-            "font-size: 15px; color: #C7C7C7; font-weight: bold; margin: 0px;"
+            pluginCountLabel.styleSheet() + "font-size: 15px; color: #C7C7C7; font-weight: bold;"
         )
         layout.addWidget(pluginCountLabel)
 
