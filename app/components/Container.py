@@ -11,6 +11,8 @@ class Container(QFrame):
         )
 
         self.layout = QVBoxLayout(self)
+        self.layout.setContentsMargins(0, 0, 0, 0)
+        self.layout.setSpacing(3)
         self.setLayout(self.layout)
 
 
