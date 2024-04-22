@@ -19,7 +19,7 @@ class Plugin(Container):
         self.layout.addWidget(nameLabel)
 
         descriptionLabel = Label(plugin["description"])
-        descriptionLabel.setStyleSheet(descriptionLabel.styleSheet() + "font-size: 14px; color: #C7C7C7; font-weight: bold;")
+        descriptionLabel.setStyleSheet(descriptionLabel.styleSheet() + "font-size: 14px; color: #C7C7C7;")
         self.layout.addWidget(descriptionLabel)
 
         activateButton = QPushButton("Deactivate" if self.active else "Activate")
