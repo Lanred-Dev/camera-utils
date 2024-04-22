@@ -19,8 +19,8 @@ class Plugin:
     def __newFrame(self, frame):
         rows, cols, _ = frame.shape
 
-        dx = random.randint(-SHAKE_INTENSITY, SHAKE_INTENSITY)
-        dy = random.randint(-SHAKE_INTENSITY, SHAKE_INTENSITY)
-        M = float32([[1, 0, dx], [0, 1, dy]])
+        x = random.randint(-SHAKE_INTENSITY, SHAKE_INTENSITY)
+        y = random.randint(-SHAKE_INTENSITY, SHAKE_INTENSITY)
+        newFrame = float32([[1, 0, x], [0, 1, y]])
 
-        return warpAffine(frame, M, (cols, rows))
+        return warpAffine(frame, newFrame, (cols, rows))
