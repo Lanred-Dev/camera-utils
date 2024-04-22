@@ -2,5 +2,5 @@
   "type": "plugin",
   "version": 0.1,
   "name": "Be Right Back",
-  "description": "Pauses the feed and overlays a 'Be Right Back!' label."
+  "description": "Pauses the webcam feed and overlays a 'Be Right Back!' label."
 }
