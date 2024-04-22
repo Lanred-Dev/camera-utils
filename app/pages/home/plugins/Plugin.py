@@ -1,10 +1,9 @@
 from sys import modules
 
-from PySide6.QtWidgets import QPushButton
-
 import camera.pluginController as pluginController
 import app.components.Container as Container
 import app.components.Label as Label
+import app.components.Button as Button
 
 
 class Plugin(Container):
@@ -22,7 +21,7 @@ class Plugin(Container):
         descriptionLabel.setStyleSheet(descriptionLabel.styleSheet() + "font-size: 14px; color: #C7C7C7;")
         self.layout.addWidget(descriptionLabel)
 
-        activateButton = QPushButton("Deactivate" if self.active else "Activate")
+        activateButton = Button("Deactivate" if self.active else "Activate")
         activateButton.clicked.connect(self.__clicked)
         self.layout.addWidget(activateButton)
 
