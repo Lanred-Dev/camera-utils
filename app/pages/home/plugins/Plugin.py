@@ -1,9 +1,10 @@
 from sys import modules
 
-from PySide6.QtWidgets import QLabel, QPushButton
+from PySide6.QtWidgets import QPushButton
 
 import camera.pluginController as pluginController
 import app.components.Container as Container
+import app.components.Label as Label
 
 
 class Plugin(Container):
@@ -13,14 +14,12 @@ class Plugin(Container):
         self.name = plugin["name"]
         self.active = pluginController.isActive(self.name)
         
-        nameLabel = QLabel(self.name + " [" + ("active" if self.active else "inactive") + "]")
-        nameLabel.setStyleSheet(
-            "font-size: 20px; color: #ffffff; font-weight: bold; margin: 0px;"
-        )
+        nameLabel = Label(self.name + " [" + ("active" if self.active else "inactive") + "]")
+        nameLabel.setStyleSheet(nameLabel.styleSheet() + "font-size: 20px; color: #ffffff; font-weight: bold;")
         self.layout.addWidget(nameLabel)
 
-        descriptionLabel = QLabel(plugin["description"])
-        descriptionLabel.setStyleSheet("font-size: 14px; color: #C7C7C7; font-weight: bold; margin: 0px;")
+        descriptionLabel = Label(plugin["description"])
+        descriptionLabel.setStyleSheet(descriptionLabel.styleSheet() + "font-size: 14px; color: #C7C7C7; font-weight: bold;")
         self.layout.addWidget(descriptionLabel)
 
         activateButton = QPushButton("Deactivate" if self.active else "Activate")

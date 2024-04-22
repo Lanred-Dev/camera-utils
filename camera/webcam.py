@@ -19,7 +19,7 @@ class Webcam:
         self.capture = None
         self.frame = None
         self.active = False
-        self.showPreview = False
+        self.showPreview = True
         self.__finalFrame = None
         self.__captureThread = None
         self.__newFrameCallbacks = {}
@@ -70,7 +70,7 @@ class Webcam:
         width = int(self.capture.get(CAP_PROP_FRAME_WIDTH))
         height = int(self.capture.get(CAP_PROP_FRAME_HEIGHT))
 
-        self.camera = Camera(width, height, fps, fmt=PixelFormat.BGR, backend="obs")
+        # self.camera = Camera(width, height, fps, fmt=PixelFormat.BGR, backend="obs")
 
     def __deleteCamera(self):
         if self.camera:
@@ -84,8 +84,8 @@ class Webcam:
                 imshow("Preview", self.__finalFrame)
                 waitKey(1)
 
-            self.camera.send(self.__finalFrame)
-            self.camera.sleep_until_next_frame()
+            # self.camera.send(self.__finalFrame)
+           #  self.camera.sleep_until_next_frame()
 
     def __read(self):
         success, frame = self.capture.read()
