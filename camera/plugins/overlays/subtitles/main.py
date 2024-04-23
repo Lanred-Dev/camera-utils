@@ -52,7 +52,6 @@ class Plugin:
         currentTime = time()
 
         for data in self.__recognizedTexts:
-            print(currentTime, data["endTime"])
             if currentTime < data["endTime"]:
                 continue
 
@@ -84,7 +83,7 @@ class Plugin:
 
     def __startSpeechRecognizer(self):
         while self.__active:
-            data = self.__audioStream.read(4096)
+            data = self.__audioStream.read(4096, False)
 
             if self.__recognizer.AcceptWaveform(data):
                 result = loads(self.__recognizer.Result())
@@ -99,12 +98,11 @@ class Plugin:
             return
 
         currentTime = time()
-        print(str((currentTime + (0.3 * (index + 1)) - currentTime)))
         self.__recognizedTexts.append(
             {
                 "text": word,
                 "time": currentTime,
-                "endTime": currentTime + (0.3 * (index + 1)),
+                "endTime": currentTime + (0.6 * (index + 1)),
             }
         )
 
