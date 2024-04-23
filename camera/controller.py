@@ -8,7 +8,6 @@ class Controller:
         self.active = False
 
     def stop(self):
-        global webcam
         webcam.stop()
 
     def start(self):
