@@ -1,6 +1,6 @@
 {
-  "type": "plugin",
-  "version": 0.2,
-  "name": "Overlay Face Zoom",
-  "description": "Overlays your face zoomed in onto your face."
+    "type": "plugin",
+    "version": 0.2,
+    "name": "Overlay Face Zoom",
+    "description": "Scales up your face and overlays it onto your face."
 }
