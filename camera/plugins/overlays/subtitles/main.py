@@ -1,4 +1,4 @@
-from time import sleep, ctime
+from time import time
 from textwrap import wrap
 
 from cv2 import getTextSize, FONT_HERSHEY_SIMPLEX
@@ -49,6 +49,15 @@ class Plugin:
         if len(self.__text) == 0:
             return frame
 
+        currentTime = time()
+
+        for data in self.__recognizedTexts:
+            if data["time"] < currentTime:
+                continue
+
+            self.__recognizedTexts.remove(data)
+            break
+
         (_textWidth, textHeight), _baseline = getTextSize(
             self.__text, FONT_HERSHEY_SIMPLEX, 0.8, 2
         )
@@ -79,26 +88,19 @@ class Plugin:
             if self.__recognizer.AcceptWaveform(data):
                 result = loads(self.__recognizer.Result())
 
-                for word, index in enumerate(result["text"].split(" ")):
+                for index, word in enumerate(result["text"].split(" ")):
                     self.__newWord(word, index)
 
                 self.__formatRecognizedText()
 
     def __newWord(self, word, index):
-        time = ctime()
-        self.__recognizedTexts.append({"text": word, "time": time, "id": index})
+        if len(word) <= 0:
+            return
 
-        sleep(0.3)
-
-        for data in self.__recognizedTexts:
-            if data["time"] != time and data["id"] != index:
-                continue
-
-            self.__recognizedTexts.remove(data)
-            break
+        self.__recognizedTexts.append({"text": word, "time": time() + (0.3 * index)})
 
     def __formatRecognizedText(self):
-        sortedTexts = sorted(self.__recognizedTexts, key=lambda x: x["time"])
+        self.__text = ""
 
-        for data in sortedTexts:
-            self.__text += data["text"]
+        for data in sorted(self.__recognizedTexts, key=lambda x: x["time"]):
+            self.__text += " " + data["text"]
