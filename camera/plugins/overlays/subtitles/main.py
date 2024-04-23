@@ -22,7 +22,7 @@ class Plugin:
     def load(self):
         self.__active = True
 
-        recognizerModel = Model(model_name="vosk-model-en-us-0.22-lgraph")
+        recognizerModel = Model(model_path="camera\\models\\speech\\english")
         self.__recognizer = KaldiRecognizer(recognizerModel, 16000)
 
         self.__portAudio = PyAudio()
@@ -99,6 +99,7 @@ class Plugin:
             return
 
         currentTime = time()
+        print(str((currentTime + (0.3 * (index + 1)) - currentTime)))
         self.__recognizedTexts.append(
             {
                 "text": word,
