@@ -16,6 +16,9 @@ class Overlay:
         pass
 
     def overlayOnDetections(self, frame, baseOverlay, detections):
+        if len(detections) == 0:
+            return frame
+
         for startX, startY, endX, endY in detections:
             width = (endX - startX) + EXTRA_PIXELS
             height = (endY - startY) + EXTRA_PIXELS
