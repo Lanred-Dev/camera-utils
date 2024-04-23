@@ -2,6 +2,7 @@ from cv2 import applyColorMap, COLORMAP_JET
 
 import camera.webcam as webcam
 
+
 class Plugin:
     def __init__(self):
         pass
