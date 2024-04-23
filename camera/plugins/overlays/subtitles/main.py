@@ -22,7 +22,7 @@ class Plugin:
     def load(self):
         self.__active = True
 
-        recognizerModel = Model(lang="en-us")
+        recognizerModel = Model(model_name="vosk-model-en-us-0.22-lgraph")
         self.__recognizer = KaldiRecognizer(recognizerModel, 16000)
 
         self.__portAudio = PyAudio()
@@ -52,7 +52,8 @@ class Plugin:
         currentTime = time()
 
         for data in self.__recognizedTexts:
-            if data["time"] < currentTime:
+            print(currentTime, data["endTime"])
+            if currentTime < data["endTime"]:
                 continue
 
             self.__recognizedTexts.remove(data)
@@ -91,13 +92,20 @@ class Plugin:
                 for index, word in enumerate(result["text"].split(" ")):
                     self.__newWord(word, index)
 
-                self.__formatRecognizedText()
+            self.__formatRecognizedText()
 
     def __newWord(self, word, index):
         if len(word) <= 0:
             return
 
-        self.__recognizedTexts.append({"text": word, "time": time() + (0.3 * index)})
+        currentTime = time()
+        self.__recognizedTexts.append(
+            {
+                "text": word,
+                "time": currentTime,
+                "endTime": currentTime + (0.3 * (index + 1)),
+            }
+        )
 
     def __formatRecognizedText(self):
         self.__text = ""
