@@ -1,8 +1,6 @@
-from cv2 import cvtColor, COLOR_BGR2GRAY
+from cv2 import cvtColor, merge, COLOR_BGR2GRAY
 
 import camera.webcam as webcam
-
-SHAKE_INTENSITY = 2
 
 
 class Plugin:
@@ -16,4 +14,5 @@ class Plugin:
         webcam.removeNewFrameCallback("grayscale")
 
     def __newFrame(self, frame):
-        return cvtColor(frame, COLOR_BGR2GRAY)
+        grayFrame = cvtColor(frame, COLOR_BGR2GRAY)
+        return merge([grayFrame, grayFrame, grayFrame])
