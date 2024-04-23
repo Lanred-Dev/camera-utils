@@ -94,7 +94,7 @@ class Plugin:
             self.__formatRecognizedText()
 
     def __newWord(self, word, index):
-        if len(word) <= 0:
+        if len(word) == 0:
             return
 
         currentTime = time()
