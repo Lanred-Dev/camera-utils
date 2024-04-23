@@ -15,7 +15,6 @@ class Plugin:
         self.__active = False
         self.__text = ""
         self.__recognizedTexts = []
-        self.__recognizerModel = None
         self.__recognizer = None
         self.__portAudio = None
         self.__audioStream = None
@@ -23,8 +22,8 @@ class Plugin:
     def load(self):
         self.__active = True
 
-        self.__recognizerModel = Model(lang="en-us")
-        self.__recognizer = KaldiRecognizer(self.__recognizerModel, 16000)
+        recognizerModel = Model(lang="en-us")
+        self.__recognizer = KaldiRecognizer(recognizerModel, 16000)
 
         self.__portAudio = PyAudio()
         self.__audioStream = self.__portAudio.open(
