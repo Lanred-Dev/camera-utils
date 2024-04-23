@@ -1,4 +1,4 @@
-from sys import modules, argv, exit
+from sys import modules, argv
 
 from PySide6.QtWidgets import QApplication
 
@@ -19,7 +19,7 @@ class App:
     def __close(self):
         camera.stop()
 
-        exit()
+        raise SystemExit
 
 
 modules[__name__] = App
