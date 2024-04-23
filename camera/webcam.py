@@ -20,6 +20,7 @@ class Webcam:
         self.frame = None
         self.active = False
         self.showPreview = True
+        self.__previewNeedsRemoved = False
         self.__finalFrame = None
         self.__captureThread = None
         self.__newFrameCallbacks = {}
@@ -81,8 +82,11 @@ class Webcam:
             self.__read()
 
             if self.showPreview:
+                self.__previewNeedsRemoved = True
                 imshow("Preview", self.__finalFrame)
                 waitKey(1)
+            elif self.__previewNeedsRemoved:
+                destroyAllWindows()
 
             self.camera.send(self.__finalFrame)
             self.camera.sleep_until_next_frame()
