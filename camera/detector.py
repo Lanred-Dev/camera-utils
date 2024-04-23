@@ -7,8 +7,8 @@ from cv2 import (
 from numpy import array
 
 network = dnn.readNetFromCaffe(
-    "camera\\models\\face.prototxt.txt",
-    "camera\\models\\face.caffemodel",
+    "camera\\models\\face\\model.prototxt.txt",
+    "camera\\models\\face\\model.caffemodel",
 )
 
 
