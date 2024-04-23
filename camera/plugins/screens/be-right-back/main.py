@@ -9,7 +9,9 @@ class Plugin:
         self.__firstFrame = None
 
     def load(self):
-        webcam.addNewFrameCallback("be-right-back", self.__newFrame, webcam.SCREEN_PRIORITY)
+        webcam.addNewFrameCallback(
+            "be-right-back", self.__newFrame, webcam.SCREEN_PRIORITY
+        )
 
     def unload(self):
         webcam.removeNewFrameCallback("be-right-back")
@@ -17,7 +19,7 @@ class Plugin:
     def __newFrame(self, frame):
         if not any(self.__firstFrame):
             (textWidth, textHeight) = getTextSize(
-                "Be Right Back!", FONT_HERSHEY_SIMPLEX, 1.3, 2
+                "Be Right Back!", FONT_HERSHEY_SIMPLEX, 1.3, 3
             )[0]
 
             textX = (frame.shape[1] - textWidth) // 2
@@ -30,7 +32,7 @@ class Plugin:
                 FONT_HERSHEY_SIMPLEX,
                 1.3,
                 (0, 0, 155),
-                2,
+                3,
             )
 
         return self.__firstFrame
