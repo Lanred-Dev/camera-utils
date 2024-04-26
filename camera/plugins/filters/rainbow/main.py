@@ -1,4 +1,4 @@
-from cv2 import addWeighted
+from cv2 import cvtColor, addWeighted, COLOR_HSV2BGR
 from numpy import zeros_like, uint8
 
 import camera.webcam as webcam
@@ -6,7 +6,7 @@ import camera.webcam as webcam
 
 class Plugin:
     def __init__(self):
-        pass
+        self.__shift = 0
 
     def load(self):
         webcam.addNewFrameCallback("rainbow", self.__newFrame, webcam.FILTER_PRIORITY)
@@ -15,13 +15,17 @@ class Plugin:
         webcam.removeNewFrameCallback("rainbow")
 
     def __newFrame(self, frame):
-        rainbowGradient = zeros_like(frame, dtype=uint8)
+        self.__shift = (self.__shift + 1) % frame.shape[1]
 
-        for index in range(frame.shape[1]):
-            rainbowGradient[:, index] = [
-                255 * index // frame.shape[1],
-                0,
-                255 - (255 * index // frame.shape[1]),
-            ]
+        return addWeighted(frame, 0.7, self.__generateGradient(frame), 0.3, 0)
 
-        return addWeighted(frame, 0.7, rainbowGradient, 0.3, 0)
+    def __generateGradient(self, frame):
+        gradient = zeros_like(frame, dtype=uint8)
+
+        for xIndex in range(frame.shape[1]):
+            hue = (xIndex + self.__shift) % 180
+            gradient[:, xIndex] = cvtColor(uint8([[[hue, 255, 255]]]), COLOR_HSV2BGR)[
+                0
+            ][0]
+
+        return gradient
