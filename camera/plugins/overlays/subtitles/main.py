@@ -102,7 +102,7 @@ class Plugin:
             {
                 "text": word,
                 "time": currentTime,
-                "endTime": currentTime + (0.6 * (index + 1)),
+                "endTime": currentTime + (1 * (index + 1)),
             }
         )
 

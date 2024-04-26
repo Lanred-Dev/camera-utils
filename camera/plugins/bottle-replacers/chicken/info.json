@@ -1,0 +1,6 @@
+{
+    "type": "plugin",
+    "version": 0.1,
+    "name": "Chicken",
+    "description": "Replaces bottles with chickens."
+}
