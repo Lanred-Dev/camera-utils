@@ -1,4 +1,5 @@
-from cv2 import applyColorMap, COLORMAP_JET
+from cv2 import addWeighted
+from numpy import zeros_like, uint8
 
 import camera.webcam as webcam
 
@@ -14,4 +15,13 @@ class Plugin:
         webcam.removeNewFrameCallback("rainbow")
 
     def __newFrame(self, frame):
-        return applyColorMap(frame, COLORMAP_JET)
+        rainbowGradient = zeros_like(frame, dtype=uint8)
+
+        for index in range(frame.shape[1]):
+            rainbowGradient[:, index] = [
+                255 * index // frame.shape[1],
+                0,
+                255 - (255 * index // frame.shape[1]),
+            ]
+
+        return addWeighted(frame, 0.7, rainbowGradient, 0.3, 0)

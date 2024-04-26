@@ -1,6 +1,6 @@
 {
-  "type": "plugin",
-  "version": 0.1,
-  "name": "Rainbow",
-  "description": "Applys a rainbow gradient map to the webcam feed."
+    "type": "plugin",
+    "version": 0.1,
+    "name": "Rainbow",
+    "description": "Applys a rainbow tint to the webcam feed."
 }
